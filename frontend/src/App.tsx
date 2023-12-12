@@ -3,18 +3,17 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/home";
 import My from "./pages/my";
 import Sale from "./pages/sale";
-import Layout from "./pages/components/Layout";
+import Layout from "./components/Layout";
 
 const App: FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-
-        <Route element={<Layout/>}>
+        <Route element={<Layout />}>
           {/* 요거는 레이아웃이라서 위에 고정 */}
-        <Route path="/" element={<Home />} />
-        <Route path="/my" element={<My />} />
-        <Route path="/sale" element={<Sale />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/my" element={<My />} />
+          <Route path="/sale" element={<Sale />} />
         </Route>
       </Routes>
     </BrowserRouter>
