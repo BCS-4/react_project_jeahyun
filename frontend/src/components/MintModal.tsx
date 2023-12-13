@@ -5,16 +5,25 @@ import { NftMetadata, OutletContext } from "../pages/types";
 
 interface MintModalProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  metadataArray: NftMetadata[];
+  setMetadataArray: Dispatch<SetStateAction<NftMetadata[]>>;
 }
 
-const MintModal: FC<MintModalProps> = ({ setIsOpen }) => {
+const MintModal: FC<MintModalProps> = ({
+  setIsOpen,
+  metadataArray,
+  setMetadataArray,
+}) => {
   const [metadata, setMetadata] = useState<NftMetadata>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { mintNftContract, account } = useOutletContext<OutletContext>();
 
   const onClickMint = async () => {
     try {
       if (!mintNftContract || !account) return;
+
+      setIsLoading(true);
 
       const response = await mintNftContract.methods
         .mintNFT()
@@ -36,8 +45,12 @@ const MintModal: FC<MintModalProps> = ({ setIsOpen }) => {
 
       const response1 = await axios.get(metadataURI);
       setMetadata(response1.data);
+      setMetadataArray([response1.data, ...metadataArray]);
+
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -75,7 +88,7 @@ const MintModal: FC<MintModalProps> = ({ setIsOpen }) => {
           </div>
         ) : (
           <>
-            <div>NFT를 민팅하시겠습니까?</div>
+            <div>{isLoading ? "로딩중..." : "NFT를 민팅하시겠습니까?"}</div>
             <div className="bg-blue-100 text-center mt-4">
               <button onClick={onClickMint}>확인</button>
             </div>
