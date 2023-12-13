@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import axios from "axios";
-import { NftMetadata, OutletContext } from "../pages/types";
+import { NftMetadata, OutletContext } from "../types";
 
 interface MintModalProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;

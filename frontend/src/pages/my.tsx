@@ -1,8 +1,9 @@
 import { FC, useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import MintModal from "../components/MintModal";
-import { NftMetadata, OutletContext } from "./types";
+import { NftMetadata, OutletContext } from "../types";
 import axios from "axios";
+import MyNftCard from "../components/MyNftCard";
 
 const My: FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -38,7 +39,7 @@ const My: FC = () => {
         // @ts-expect-error
         const response = await axios.get(metadataURI);
 
-        temp.push(response.data);
+        temp.push({ ...response.data, tokenId: Number(tokenId) });
       }
       setMetadataArray(temp);
     } catch (error) {
@@ -66,10 +67,13 @@ const My: FC = () => {
         </div>
         <ul className=" p-8 grid grid-cols-2 gap-8">
           {metadataArray?.map((v, i) => (
-            <li key={i}>
-              <img className="w-60 h-60 " src={v.image} alt={v.name} />
-              <div className="font-semibold mt-1">{v.name}</div>
-            </li>
+            <MyNftCard
+              key={i}
+              image={v.image}
+              name={v.name}
+              tokenId={v.tokenId!}
+            />
+            // v.tokenId 뒤에 !붙인거는 타입스크립트 문법. 내가 체킹하겠다.
           ))}
         </ul>
       </div>

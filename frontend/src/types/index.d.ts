@@ -8,6 +8,8 @@ export interface OutletContext {
 }
 
 export interface NftMetadata {
+  tokenId?: number;
+  // 토큰아이디만 나중에 추가해서 ?로 추가
   name: string;
   image: string;
   description: string;
