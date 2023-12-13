@@ -1,12 +1,15 @@
-import { Dispatch, FC, SetStateAction } from "react";
-import { OutletContext } from "./Layout";
+import { Dispatch, FC, SetStateAction, useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import axios from "axios";
+import { NftMetadata, OutletContext } from "../pages/types";
 
 interface MintModalProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const MintModal: FC<MintModalProps> = ({ setIsOpen }) => {
+  const [metadata, setMetadata] = useState<NftMetadata>();
+
   const { mintNftContract, account } = useOutletContext<OutletContext>();
 
   const onClickMint = async () => {
@@ -17,6 +20,22 @@ const MintModal: FC<MintModalProps> = ({ setIsOpen }) => {
         .mintNFT()
         .send({ from: account });
       //   주황색인 센드(일반트랜잭션)
+
+      //@ts-expect-error
+      const balance = await mintNftContract.methods.balanceOf(account).call();
+
+      const tokenId = await mintNftContract.methods
+        // @ts-expect-error
+        .tokenOfOwnerByIndex(account, Number(balance) - 1)
+        .call();
+
+      const metadataURI: string = await mintNftContract.methods
+        // @ts-expect-error
+        .tokenURI(tokenId)
+        .call();
+
+      const response1 = await axios.get(metadataURI);
+      setMetadata(response1.data);
     } catch (error) {
       console.log(error);
     }
@@ -28,10 +47,40 @@ const MintModal: FC<MintModalProps> = ({ setIsOpen }) => {
         <div className="bg-pink-100 text-right mb-8">
           <button onClick={() => setIsOpen(false)}>x</button>
         </div>
-        <div>NFT를 민팅하시겠습니까?</div>
-        <div className="bg-blue-800 text-center mt-4">
-          <button onClick={onClickMint}>확인</button>
-        </div>
+        {metadata ? (
+          <div className="w-60">
+            <img
+              className="w-60 h-60"
+              src={metadata.image}
+              alt={metadata.name}
+            />
+            <div className="font-semibold mt-1">{metadata.name}</div>
+            <div className="mt-1">{metadata.description}</div>
+            <ul className="mt-1 flex flex-wrap gap-1">
+              {metadata.attributes.map((v, i) => (
+                <li key={i}>
+                  <span className="font-semibold">{v.trait_type}</span>
+                  <span>: {v.value}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="text-center mt-4">
+              <button
+                className="hover:text-gray-500"
+                onClick={() => setIsOpen(false)}
+              >
+                닫기
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div>NFT를 민팅하시겠습니까?</div>
+            <div className="bg-blue-100 text-center mt-4">
+              <button onClick={onClickMint}>확인</button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

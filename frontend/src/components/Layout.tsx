@@ -8,13 +8,7 @@ import mintNftAbi from "../abis/mintNftAbi.json";
 import Header from "./Header";
 // 내가만든 임포트
 
-export interface OutletContext {
-  account: string;
-  web3: Web3;
-  mintNftContract: Contract<ContractAbi>;
-  // 컨트랙트의 타입의 타입
-}
-// 요거는 my에서 쓸거라서 바로 익스포트
+
 
 const Layout: FC = () => {
   const [account, setAccount] = useState<string>("");
