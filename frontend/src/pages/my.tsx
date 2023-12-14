@@ -1,9 +1,11 @@
 import { FC, useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import MintModal from "../components/MintModal";
 import { NftMetadata, OutletContext } from "../types";
 import axios from "axios";
-import MyNftCard from "../components/MyNftCard";
+import NftCard from "../components/NftCard";
+
+
 
 const My: FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -12,6 +14,8 @@ const My: FC = () => {
   const { mintNftContract, account } = useOutletContext<OutletContext>();
   // outlet프롭스는 useOutletContext쓰면됨 매우간단
   // 타입은 우리가 만든 OutletContext 넣으면 끝
+  const navigate = useNavigate();
+
   const onClickMintModal = () => {
     if (!account) return;
     setIsOpen(true);
@@ -53,6 +57,13 @@ const My: FC = () => {
   }, [mintNftContract, account]);
   useEffect(() => console.log(metadataArray), [metadataArray]);
 
+  useEffect(() => {
+    if (account) return;
+
+    navigate("/");
+  }, [account]);
+  // 로그아웃하면 홈으로 보내버리기
+
   return (
     <>
       <div className=" grow">
@@ -67,7 +78,7 @@ const My: FC = () => {
         </div>
         <ul className=" p-8 grid grid-cols-2 gap-8">
           {metadataArray?.map((v, i) => (
-            <MyNftCard
+            <NftCard
               key={i}
               image={v.image}
               name={v.name}
