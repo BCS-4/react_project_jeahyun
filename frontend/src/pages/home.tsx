@@ -56,12 +56,11 @@ const Home: FC = () => {
 
       for (let i = 0; i < GET_AMOUNT; i++) {
         if (searchTokenId - i > 0) {
-          const metadataURI = await mintNftContract.methods
+          const metadataURI: string = await mintNftContract.methods
             // @ts-expect-error
             .tokenURI(searchTokenId - i)
             .call();
 
-          // @ts-expect-error
           const response = await axios.get(metadataURI);
 
           temp.push({ ...response.data, tokenId: searchTokenId -i });

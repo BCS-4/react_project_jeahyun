@@ -7,8 +7,8 @@ import { useSDK } from "@metamask/sdk-react";
 import mintNftAbi from "../abis/mintNftAbi.json";
 import Header from "./Header";
 // 내가만든 임포트
-
-
+import saleNftAbi from "../abis/saleNftAbi.json";
+import { MINT_NFT_CONTRACT, SALE_NFT_CONTRACT } from "../abis/contractAddresses";
 
 const Layout: FC = () => {
   const [account, setAccount] = useState<string>("");
@@ -17,6 +17,8 @@ const Layout: FC = () => {
   const [web3, setWeb3] = useState<Web3>();
   // 우리는 웹3를 유즈스테이트로 쓸거임
   const [mintNftContract, setmintNftContract] =
+    useState<Contract<ContractAbi>>();
+  const [saleNftContract, setSaleNftContract] =
     useState<Contract<ContractAbi>>();
 
   const { provider } = useSDK();
@@ -34,18 +36,16 @@ const Layout: FC = () => {
     if (!web3) return;
 
     setmintNftContract(
-      new web3.eth.Contract(
-        mintNftAbi,
-        "0xe5eCD09bDe6f6Db77c8f5E10C327a63d4dB73669"
-      )
+      new web3.eth.Contract(mintNftAbi, MINT_NFT_CONTRACT)
       // web3 생성~
     );
+    setSaleNftContract(new web3.eth.Contract(saleNftAbi, SALE_NFT_CONTRACT));
   }, [web3]);
 
   return (
     <div className=" min-h-screen max-w-screen-md mx-auto flex flex-col">
       <Header account={account} setAccount={setAccount} />
-      <Outlet context={{ account, web3, mintNftContract }} />
+      <Outlet context={{ account, web3, mintNftContract, saleNftContract }} />
       {/* 아웃렛에서 프롭스 내리는거는 좀 특이함
       아웃렛 자체가 아래에 여러컴포넌트라서 context={} 를 사용하는데
       이게 기본 포맷이고 그안에 객체를 내려주니까 또 {}감싸주는것 */}

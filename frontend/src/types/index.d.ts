@@ -5,6 +5,7 @@ export interface OutletContext {
   web3: Web3;
   mintNftContract: Contract<ContractAbi>;
   // 컨트랙트의 타입의 타입
+  saleNftContract: Contract<ContractAbi>;
 }
 
 export interface NftMetadata {
