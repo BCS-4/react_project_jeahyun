@@ -4,24 +4,24 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { MetaMaskProvider } from "@metamask/sdk-react";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <MetaMaskProvider
-      sdkOptions={{
-        dappMetadata: {
-          name: "Bungae Jangteo",
-          url: window.location.host,
-        },
-        // 이름이랑 위치
-      }}
-    >
-      <App />
-    </MetaMaskProvider>
-  </React.StrictMode>
+  <MetaMaskProvider
+    sdkOptions={{
+      dappMetadata: {
+        name: "Bungae Jangteo",
+        url: window.location.host,
+      },
+      // 이름이랑 위치
+    }}
+  >
+    <App />
+  </MetaMaskProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

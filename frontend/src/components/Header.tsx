@@ -25,26 +25,39 @@ const Header: FC<HeaderProps> = ({ account, setAccount }) => {
   };
 
   return (
-    <header className="p-2 flex justify-between">
-      <div className="flex gap-4">
-        <Link to="/">Home</Link>
-        <Link to="/my">My</Link>
-        <Link to="/sale">Sale</Link>
+    <header>
+      <div className="flex">
+        <div className="flex justify-center items-center  font-family: 'RixMomsBlanketR' text-center text-7xl p-10 animate-bounce ">
+          <div className="flex justify-center items-center">
+            <img className="hover:bg-red-500" src="./images/tt.png" />
+            햄식이
+          </div>
+        </div>
+        <div className="font-family: 'RixMomsBlanketR' text-center text-7xl p-10 ">
+          NFT Series
+        </div>
       </div>
-      <div>
-        {account ? (
-          <>
-            <span>
-              {account.substring(0, 7)}...
-              {account.substring(account.length - 5)}
-            </span>
-            <button className="ml-2" onClick={() => setAccount("")}>
-              Logout
-            </button>
-          </>
-        ) : (
-          <button onClick={onClickMetaMask}>MetaMask Login</button>
-        )}
+      <div className="p-2 flex justify-between">
+        <div className="flex gap-4">
+          <Link to="/">Home</Link>
+          <Link to="/my">My</Link>
+          <Link to="/sale">Sale</Link>
+        </div>
+        <div>
+          {account ? (
+            <>
+              <span>
+                {account.substring(0, 7)}...
+                {account.substring(account.length - 5)}
+              </span>
+              <button className="ml-2" onClick={() => setAccount("")}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <button onClick={onClickMetaMask}>MetaMask Login</button>
+          )}
+        </div>
       </div>
     </header>
   );

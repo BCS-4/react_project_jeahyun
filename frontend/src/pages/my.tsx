@@ -6,6 +6,7 @@ import axios from "axios";
 import { SALE_NFT_CONTRACT } from "../abis/contractAddresses";
 import MyNftCard from "../components/MyNftCard";
 
+
 const My: FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [metadataArray, setMetadataArray] = useState<NftMetadata[]>([]);
@@ -106,6 +107,7 @@ const My: FC = () => {
     <>
       <div className=" grow">
         {/* // grow는 아래까지 전부 덮어버림 */}
+
         <div className=" flex justify-between p-2">
           <button className="hover:text-gray-500" onClick={onClickSaleStatus}>
             Sale Approved: {saleStatus ? "TRUE" : "FALSE"}

@@ -3,6 +3,7 @@ import { useOutletContext } from "react-router-dom";
 import { NftMetadata, OutletContext } from "../types";
 import axios from "axios";
 import NftCard from "../components/NftCard";
+import Video from "../components/Video";
 
 const GET_AMOUNT = 6;
 
@@ -63,7 +64,7 @@ const Home: FC = () => {
 
           const response = await axios.get(metadataURI);
 
-          temp.push({ ...response.data, tokenId: searchTokenId -i });
+          temp.push({ ...response.data, tokenId: searchTokenId - i });
           // 끝에서부터 가져오니까 i를 빼주면됨
         }
       }
@@ -95,15 +96,21 @@ const Home: FC = () => {
   }, [metadataArray]);
 
   return (
-    <div className="grow bg-green-100">
-      <ul className=" p-8 grid grid-cols-2 gap-8">
-        {metadataArray?.map((v, i) => (
-          <NftCard key={i} image={v.image} name={v.name} tokenId={v.tokenId!} />
-          // v.tokenId 뒤에 !붙인거는 타입스크립트 문법. 내가 체킹하겠다.
-        ))}
-      </ul>
-      <div ref={detectRef} className="bg-black text-white py-4">
-        Detecting Area
+    <div>
+      <div className="grow">
+        <Video />
+        <ul className=" p-8 grid grid-cols-2 gap-8">
+          {metadataArray?.map((v, i) => (
+            <NftCard
+              key={i}
+              image={v.image}
+              name={v.name}
+              tokenId={v.tokenId!}
+            />
+            // v.tokenId 뒤에 !붙인거는 타입스크립트 문법. 내가 체킹하겠다.
+          ))}
+        </ul>
+        <div ref={detectRef} className=" text-white py-4"></div>
       </div>
     </div>
   );

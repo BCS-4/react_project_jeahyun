@@ -8,7 +8,10 @@ import mintNftAbi from "../abis/mintNftAbi.json";
 import Header from "./Header";
 // 내가만든 임포트
 import saleNftAbi from "../abis/saleNftAbi.json";
-import { MINT_NFT_CONTRACT, SALE_NFT_CONTRACT } from "../abis/contractAddresses";
+import {
+  MINT_NFT_CONTRACT,
+  SALE_NFT_CONTRACT,
+} from "../abis/contractAddresses";
 
 const Layout: FC = () => {
   const [account, setAccount] = useState<string>("");
@@ -43,12 +46,19 @@ const Layout: FC = () => {
   }, [web3]);
 
   return (
-    <div className=" min-h-screen max-w-screen-md mx-auto flex flex-col">
-      <Header account={account} setAccount={setAccount} />
-      <Outlet context={{ account, web3, mintNftContract, saleNftContract }} />
-      {/* 아웃렛에서 프롭스 내리는거는 좀 특이함
+    <div
+      style={{
+        backgroundImage: `url('/images/h1.jpg')`,
+        backgroundRepeat: "repeat", // 이미지 반복 지정
+      }}
+    >
+      <div className="min-h-screen w-3/5 mx-auto flex flex-col font-style: italic text-amber-500">
+        <Header account={account} setAccount={setAccount} />
+        <Outlet context={{ account, web3, mintNftContract, saleNftContract }} />
+        {/* 아웃렛에서 프롭스 내리는거는 좀 특이함
       아웃렛 자체가 아래에 여러컴포넌트라서 context={} 를 사용하는데
       이게 기본 포맷이고 그안에 객체를 내려주니까 또 {}감싸주는것 */}
+      </div>
     </div>
   );
 };
