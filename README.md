@@ -12,3 +12,6 @@ remixd -s . --remix-ide https://remix.ethereum.org
 기능 : home에 햄스터 영상과 nft들이 나옴. my에 내 nft들이 나옴. sale페이지 에서 판매 가능
 
 ![zz](https://github.com/BCS-4/react_project_jeahyun/assets/58253441/d221593f-ff93-4673-b800-349999236fa3)
+
+배포링크 : pfp-project-iums.vercel.app
+
